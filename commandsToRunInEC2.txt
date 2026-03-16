@@ -1,0 +1,45 @@
+#Run one by one
+
+# Install Python and tools
+sudo apt update && sudo apt install python3-pip python3-venv unzip -y
+
+# Install AWS CLI
+curl 'https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip' -o 'awscliv2.zip'
+unzip awscliv2.zip && sudo ./aws/install
+
+# Verify AWS CLI works (should show your region and account)
+aws sts get-caller-identity
+
+
+# Download app zip from S3
+aws s3 cp s3://churniq-ml-yourname-2025/code/ChurnIQ_AppRunner.zip ~/
+
+# Extract it
+unzip ~/ChurnIQ_AppRunner.zip
+cd churniq
+
+# Create Python virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# Install dependencies (pinned versions — no conflicts)
+pip install -r requirements.txt
+
+
+
+Step 3: Run the app
+# Set environment variables
+export USE_SAGEMAKER=true
+export REALTIME_ENDPOINT=churniq-realtime
+export SERVERLESS_ENDPOINT=churniq-serverless
+export S3_BUCKET=chrun-detection
+export S3_MODEL_KEY=training-output/churniq-train-1/output/model.tar.gz
+export AWS_REGION=ap-south-1
+
+# Run app in background (survives terminal close)
+nohup python app.py > app.log 2>&1 &
+
+# Check it started correctly
+sleep 3 && cat app.log
+
+
