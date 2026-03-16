@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>About <span class="accent">ChurnIQ</span></h1>
+    <p>Professional ML Lifecycle &amp; Cost Governance — AWS SageMaker Project</p>
+  </div>
+
+  <!-- HERO -->
+  <div class="card" style="background:linear-gradient(135deg,rgba(0,212,255,.07),rgba(124,58,237,.07));border-color:rgba(0,212,255,.3);margin-bottom:1.5rem;padding:2.5rem;">
+    <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+      <div style="flex:1;min-width:260px;">
+        <div style="font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;line-height:1.25;margin-bottom:.75rem;">
+          ML Lifecycle &amp; Cost<br><span class="accent">Governance Project</span>
+        </div>
+        <p style="color:var(--text2);line-height:1.7;font-size:.95rem;">
+          Built from scratch — raw data to a deployed, cost-aware cloud endpoint.
+          Follows the full ML Development Lifecycle (MLDC) with an automated FinOps layer
+          to prevent "Zombie Infrastructure" costs on AWS SageMaker.
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.6rem;min-width:200px;">
+        {% for icon,color,text in [
+          ("fas fa-brain","var(--accent)","XGBoost Classifier v2"),
+          ("fab fa-aws","var(--accent3)","AWS SageMaker Ready"),
+          ("fas fa-shield-alt","var(--success)","FinOps Cost Guard"),
+          ("fas fa-chart-line","var(--accent2)","~80% Accuracy")
+        ] %}
+        <div style="display:flex;align-items:center;gap:10px;background:var(--bg3);padding:10px 16px;border-radius:10px;">
+          <i class="{{icon}}" style="color:{{color}};width:18px;"></i>
+          <span style="font-size:.875rem;font-weight:600;">{{text}}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE STAGES -->
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="card-title"><i class="fas fa-route" style="color:var(--accent2)"></i> ML Pipeline Stages</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:.5rem;">
+      {% for num,title,desc,icon in [
+        ("I","Training","SageMaker Training Job on GPU (ml.g4dn) — spins up for ~10 min then auto-terminates","fas fa-graduation-cap"),
+        ("II","Serialization","Model saved as .tar.gz artifact to S3 — packaged for production deployment","fas fa-box"),
+        ("III","Deployment","Hybrid: Real-Time Endpoint (low latency) + Serverless Inference (pay-per-use)","fas fa-server"),
+        ("IV","FinOps","Lambda + CloudWatch auto-deletes idle endpoints after 1hr of no traffic","fas fa-shield-alt")
+      ] %}
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.25rem;position:relative;">
+        <div style="font-family:'Syne',sans-serif;font-size:.62rem;font-weight:800;color:var(--text3);letter-spacing:2px;margin-bottom:.4rem;">STAGE {{num}}</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:.4rem;">{{title}}</div>
+        <div style="font-size:.8rem;color:var(--text2);line-height:1.55;">{{desc}}</div>
+        <i class="{{icon}}" style="position:absolute;top:1.1rem;right:1.1rem;color:var(--accent);opacity:.35;font-size:1.1rem;"></i>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- TECH STACK + FINOPS -->
+  <div class="grid-2" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-title"><i class="fas fa-code" style="color:var(--accent)"></i> Tech Stack</div>
+      {% for name,role,icon in [
+        ("Python 3.x","Language","fas fa-python"),
+        ("XGBoost","ML Algorithm","fas fa-brain"),
+        ("Scikit-learn 1.6.1","Preprocessing","fas fa-cogs"),
+        ("SMOTE","Class Balancing","fas fa-balance-scale"),
+        ("Optuna","Hyperparameter Tuning","fas fa-sliders-h"),
+        ("Flask","Web Framework","fas fa-flask"),
+        ("AWS SageMaker","Cloud Training","fab fa-aws"),
+        ("AWS Lambda","Cost Guard","fas fa-bolt"),
+        ("CloudWatch","Monitoring","fas fa-eye"),
+        ("S3","Model Storage","fas fa-database")
+      ] %}
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <i class="{{icon}}" style="color:var(--accent2);width:15px;font-size:.85rem;"></i>
+          <span style="font-weight:600;font-size:.85rem;">{{name}}</span>
+        </div>
+        <span style="font-size:.75rem;color:var(--text3);">{{role}}</span>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="fas fa-dollar-sign" style="color:var(--success)"></i> FinOps Strategy</div>
+      <div style="font-size:.875rem;color:var(--text2);line-height:1.7;">
+        <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:10px;padding:1rem;margin-bottom:1rem;">
+          <div style="font-weight:700;color:var(--danger);margin-bottom:6px;"><i class="fas fa-skull-crossbones"></i> The Problem</div>
+          A persistent SageMaker endpoint (ml.m5.xlarge) costs <strong>$150–200/month</strong>
+          even with zero traffic — called <em>"Zombie Infrastructure."</em>
+        </div>
+        <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:1rem;">
+          <div style="font-weight:700;color:var(--success);margin-bottom:8px;"><i class="fas fa-shield-alt"></i> The Solution</div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div>✓ <strong>Serverless Inference</strong> — ~$0.00002/sec, zero idle cost</div>
+            <div>✓ <strong>Auto-Shutdown Script</strong> — Boto3 checks traffic hourly</div>
+            <div>✓ <strong>CloudWatch Alarm</strong> — Billing alert at $5.00</div>
+            <div>✓ <strong>GPU Training Jobs</strong> — 10-min burst then auto-terminates</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPROVEMENTS -->
+  <div class="card">
+    <div class="card-title"><i class="fas fa-arrow-up" style="color:var(--accent3)"></i> v2 Accuracy Improvements</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:.5rem;">
+      {% for title,desc,impact in [
+        ("Feature Engineering","8 new features: ChargePerTenure, HighRiskCombo, FiberNoSecurity, etc.","+2–3%"),
+        ("SMOTE Balancing","Synthetic oversampling fixes 26.5% class imbalance","+1–2%"),
+        ("Optuna Tuning","20-trial TPE search finds best XGBoost hyperparameters","+2–3%"),
+        ("Threshold Optimization","Finds best decision boundary beyond default 0.5","+1–2%")
+      ] %}
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.1rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;">{{title}}</div>
+          <span style="background:rgba(16,185,129,.15);color:var(--success);border:1px solid rgba(16,185,129,.3);padding:2px 8px;border-radius:20px;font-size:.72rem;font-weight:700;">{{impact}}</span>
+        </div>
+        <div style="font-size:.8rem;color:var(--text2);line-height:1.5;">{{desc}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
